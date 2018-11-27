@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Kyivstar #2</title>
+</head>
+<body>
+<ul>
+    <li data-length="1:22">Audio 1</li>
+    <li data-length="14:44">Audio 2</li>
+    <li data-length="6:09">Audio 3</li>
+    <li data-length="1:03:12">Audio 4</li>
+    <li data-length="48:52">Audio 5</li>
+</ul>
+
+<script>
+    let $list = document.querySelector('ul');
+
+    function countTotalTime () {
+        let arr =[],  sum=0;
+        for(let i = 0; i < $list.childNodes.length; i++){
+            if ($list.childNodes[i].tagName == 'LI') {
+                arr.push($list.childNodes[i].dataset.length);
+            }
+        }
+        let arr2 = arr.map((time) => {
+            return time.split(":").reverse()
+        });
+        for(let j = 0; j < arr2.length; j++){
+            if(arr2[j][2]){
+                sum += parseInt(arr2[j][0])+ parseInt(arr2[j][1])*60+parseInt(arr2[j][2])*3600;
+            } else {
+                sum += parseInt(arr2[j][0])+ parseInt(arr2[j][1])*60
+            }
+        }
+
+        return (new Date(sum*1000).toUTCString().split(/ /)[4])
+
+    }
+
+    console.log( countTotalTime() ); // ожидаем на выходе общую длительность всех временных отрезков.
+</script>
+</body>
+</html>
